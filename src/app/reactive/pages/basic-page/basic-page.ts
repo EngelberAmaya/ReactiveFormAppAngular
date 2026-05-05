@@ -1,6 +1,6 @@
 import { JsonPipe } from '@angular/common';
-import { Component } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-basic-page',
@@ -10,10 +10,12 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 })
 export class BasicPage {
 
-  myForm = new FormGroup({
-    name: new FormControl(''),
-    price: new FormControl(0),
-    inStorage: new FormControl(0),
+  private formBuilder = inject(FormBuilder);
+
+  myForm = this.formBuilder.group({
+    name: [''],
+    price: [0, ],
+    inStorage: [0],
   });
 
 }
