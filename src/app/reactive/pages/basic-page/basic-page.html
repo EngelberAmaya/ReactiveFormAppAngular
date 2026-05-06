@@ -17,9 +17,9 @@
                         formControlName="name"
                     >
 
-                    @if (isInvalidField('name')) {
+                    @if (formUtils.isInvalidField(myForm, 'name')) {
                       <span class="form-text text-danger">
-                        {{ getFieldError('name') }}
+                        {{ formUtils.getFieldError(myForm, 'name') }}
                       </span>
                     }
 
@@ -36,9 +36,9 @@
                         formControlName="price"
                     >
 
-                    @if (isInvalidField('price')) {
+                    @if (formUtils.isInvalidField(myForm, 'price')) {
                       <span class="form-text text-danger">
-                        {{ getFieldError('price') }}
+                        {{ formUtils.getFieldError(myForm, 'price') }}
                       </span>
                     }
 
@@ -54,9 +54,9 @@
                            placeholder="Existencias del producto"
                            formControlName="inStorage">
 
-                    @if (isInvalidField('inStorage')) {
+                    @if (formUtils.isInvalidField(myForm, 'inStorage')) {
                       <span class="form-text text-danger">
-                        {{ getFieldError('inStorage') }}
+                        {{ formUtils.getFieldError(myForm, 'inStorage') }}
                       </span>
                     }
                 </div>
