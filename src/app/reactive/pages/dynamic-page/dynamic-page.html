@@ -25,12 +25,12 @@
         <div class="col-sm-9">
 
             <div class="input-group">
-                <input
-                  class="form-control"
-                  placeholder="Agregar favorito"
-                  [formControl]="newFavorite"
-                  (keyup.enter)="onAddToFavorites()"
-                >
+              <input
+                class="form-control"
+                placeholder="Agregar favorito"
+                [formControl]="newFavorite"
+                (keydown.enter)="$event.preventDefault(); onAddToFavorites()"
+              >
 
                 <button
                   class="btn btn-outline-primary"
