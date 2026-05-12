@@ -12,12 +12,12 @@
                 <div class="col-sm-9">
                     <input type="text"
                            class="form-control"
-                           placeholder="Nombre del usuario"
+                           placeholder="Nombre y apellido"
                            formControlName="name">
 
                     @if (formUtils.isInvalidField(myForm, 'name')) {
                       <span class="form-text text-danger">
-                        {{ formUtils.getFieldError(myForm, 'name') }}
+                        El campo debe tener un nombre y un apellido
                       </span>
                     }
                 </div>
