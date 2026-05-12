@@ -1,4 +1,4 @@
-import { FormArray, FormGroup, ValidationErrors } from "@angular/forms";
+import { AbstractControl, FormArray, FormGroup, ValidationErrors } from "@angular/forms";
 
 export class FormUtils {
 
@@ -22,11 +22,19 @@ export class FormUtils {
 
           const pattern = errors['pattern'].requiredPattern;
 
-          if (pattern === FormUtils.emailPattern) {
-            return `El email no tiene el formato correcto`;
+          const patternMessages: Record<string, string> = {
+            [FormUtils.emailPattern]: `El email no tiene el formato correcto`,
+            [FormUtils.namePattern]: `El campo debe tener un nombre y un apellido`,
+            [`^${FormUtils.namePattern}$`]: `El campo debe tener un nombre y un apellido`,
+            [FormUtils.notOnlySpacesPattern]: `El campo no puede contener espacios`,
+          };
+
+          if (pattern in patternMessages) {
+            return patternMessages[pattern];
           }
 
-          return `Error de patrón contra expresión regular`;
+          // Si no es un patrón manejado explícitamente, no mostramos mensaje genérico.
+          return null;
 
         default:
           return `Error de validación no controlado ${key}`;
@@ -65,5 +73,14 @@ export class FormUtils {
     const errors = formArray.controls[index].errors ?? {};
 
     return this.getTextError(errors);
+  }
+
+  static isFieldOneEqualFieldTwo(field1: string, field2: string){
+    return (formGroup: AbstractControl) => {
+      const field1Value = formGroup.get(field1)?.value;
+      const field2Value = formGroup.get(field2)?.value;
+
+      return field1Value === field2Value ? null : { passwordNotEqual: true };
+    }
   }
 }
