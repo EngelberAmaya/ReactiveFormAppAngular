@@ -33,6 +33,9 @@ export class FormUtils {
         case 'min':
           return `Valor mínimo de ${errors['min'].min}`;
 
+        case 'noStrider':
+          return 'El nombre de usuario no puede ser strider';
+
         case 'pattern':
 
           const pattern = errors['pattern'].requiredPattern;
@@ -109,5 +112,10 @@ export class FormUtils {
     }
 
     return null;
+  }
+
+  static notStrictlyEqual(control: AbstractControl): ValidationErrors | null {
+    const fieldValue = control.value;
+    return fieldValue === 'strider' ? { noStrider: true } : null;
   }
 }
