@@ -26,7 +26,7 @@ export class RegisterPage {
       Validators.pattern(FormUtils.emailPattern),
       Validators.minLength(6),
       Validators.maxLength(30)
-    ]],
+    ], [FormUtils.checkingServerResponse]],
     username: ['', [
       Validators.required, Validators.minLength(6),
       Validators.pattern(FormUtils.notOnlySpacesPattern),
