@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { JsonPipe } from '@angular/common';
 import { CountryService } from '../../services/country-service';
 import { Country } from '../../interfaces/country-interface';
-import { filter, switchMap, tap } from 'rxjs';
+import { catchError, filter, map, of, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-country-page',
@@ -20,6 +20,8 @@ export class CountryPage {
 
   countriesByRegion = signal<Country[]>([]);
   bordersByCountry = signal<Country[]>([]);
+  countriesError = signal<string | null>(null);
+  borderError = signal<string | null>(null);
 
   myForm: FormGroup = this.formBuilder.group({
     region: ['', [Validators.required]],
@@ -42,12 +44,21 @@ export class CountryPage {
     return this.myForm.get('region')!.valueChanges
       .pipe(
         tap(() => this.myForm.get('country')!.setValue('')),
-        tap(() => this.myForm.get('border')!.setValue('')) ,
+        tap(() => this.myForm.get('border')!.setValue('')),
         tap(() => {
           this.bordersByCountry.set([]);
           this.countriesByRegion.set([]);
+          this.countriesError.set(null);
+          this.borderError.set(null);
         }),
         switchMap((region) => this.countryService.getCountriesByRegion(region ?? '')),
+        map((countries) =>
+          [...countries].sort((a, b) => a.name.common.localeCompare(b.name.common))
+        ),
+        catchError(() => {
+          this.countriesError.set('No se pudieron cargar los paises de la region');
+          return of([]);
+        }),
       )
       .subscribe((countries) => {
         this.countriesByRegion.set(countries);
@@ -58,7 +69,10 @@ export class CountryPage {
     return this.myForm.get('country')!.valueChanges
       .pipe(
         tap(() => this.myForm.get('border')!.setValue('')),
-        tap(() => this.bordersByCountry.set([])),
+        tap(() => {
+          this.bordersByCountry.set([]);
+          this.borderError.set(null);
+        }),
         filter((value) => value.length > 0),
         switchMap((alphaCode) =>
           this.countryService.getCountryByAlphaCode(alphaCode ?? '')
@@ -66,6 +80,13 @@ export class CountryPage {
         switchMap((country) =>
           this.countryService.getCountryByCodeArray(country?.borders ?? [])
         ),
+        map((countries) =>
+          [...countries].sort((a, b) => a.name.common.localeCompare(b.name.common))
+        ),
+        catchError(() => {
+          this.borderError.set('No se pudieron cargar las fronteras del pais');
+          return of([]);
+        }),
       )
       .subscribe((borders) => {
         this.bordersByCountry.set(borders);

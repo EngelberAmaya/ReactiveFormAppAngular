@@ -1,9 +1,35 @@
+<nav class="navbar navbar-light bg-light rounded mb-4 d-sm-none">
+  <div class="container-fluid">
+    <span class="navbar-brand">Menu</span>
+
+    <button
+      type="button"
+      class="navbar-toggler"
+      (click)="toggleSideMenu()"
+      aria-controls="sideMenu"
+      [attr.aria-expanded]="isSideMenuOpen()"
+      aria-label="Abrir o cerrar menu"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div
+      id="sideMenu"
+      class="collapse w-100"
+      [class.show]="isSideMenuOpen()"
+      (click)="closeSideMenu()"
+    >
+      <app-side-menu />
+    </div>
+  </div>
+</nav>
+
 <div class="row mt-5">
   <div class="col">
     <router-outlet />
   </div>
 
-  <div class="col-12 col-sm-4">
+  <div class="col-sm-4 d-none d-sm-block">
     <app-side-menu />
   </div>
 </div>

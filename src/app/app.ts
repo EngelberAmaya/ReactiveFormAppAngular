@@ -10,4 +10,13 @@ import { SideMenu } from './shared/components/side-menu/side-menu';
 })
 export class App {
   protected readonly title = signal('reactive-form-app');
+  protected readonly isSideMenuOpen = signal(false);
+
+  toggleSideMenu(): void {
+    this.isSideMenuOpen.update((isOpen) => !isOpen);
+  }
+
+  closeSideMenu(): void {
+    this.isSideMenuOpen.set(false);
+  }
 }

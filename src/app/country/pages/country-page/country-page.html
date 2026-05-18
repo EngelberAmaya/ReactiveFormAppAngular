@@ -23,7 +23,10 @@
   <div class="row mb-3">
     <div class="col">
       <label class="form-label">País:</label>
-      <select formControlName="country" class="form-control">
+      <select
+        formControlName="country"
+        class="form-control"
+      >
         <option value="">-- Seleccione País --</option>
         @for (country of countriesByRegion(); track country.cca3) {
           <option [value]="country.cca3">
@@ -31,6 +34,12 @@
           </option>
         }
       </select>
+
+      @if (countriesError()) {
+        <div class="alert alert-danger mt-2">
+          {{ countriesError() }}
+        </div>
+      }
     </div>
   </div>
 
@@ -49,6 +58,12 @@
           </option>
         }
       </select>
+
+      @if (borderError()) {
+        <div class="alert alert-danger mt-2">
+          {{ borderError() }}
+        </div>
+      }
     </div>
   </div>
 
