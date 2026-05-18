@@ -42,11 +42,12 @@
       <label class="form-label">Fronteras:</label>
       <select formControlName="border" class="form-control">
         <option value="">-- Seleccione la frontera --</option>
+        @for (border of bordersByCountry(); track border.cca3) {
 
-
-        <!-- <option [value]="country.cca3">
-          {{ country.name }}
-        </option> -->
+          <option [value]="border.cca3">
+            {{ border.name.common }}
+          </option>
+        }
       </select>
     </div>
   </div>
