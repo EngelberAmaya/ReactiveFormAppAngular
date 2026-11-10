@@ -26,8 +26,11 @@
       <select
         formControlName="country"
         class="form-control"
+        [attr.aria-busy]="isLoadingCountries()"
       >
-        <option value="">-- Seleccione País --</option>
+        <option value="">
+          {{ isLoadingCountries() ? 'Cargando países...' : '-- Seleccione País --' }}
+        </option>
         @for (country of countriesByRegion(); track country.cca2) {
           <option [value]="country.cca2">
             {{ country.name }}
@@ -49,8 +52,14 @@
   <div class="row mb-3">
     <div class="col">
       <label class="form-label">Fronteras:</label>
-      <select formControlName="border" class="form-control">
-        <option value="">-- Seleccione la frontera --</option>
+      <select
+        formControlName="border"
+        class="form-control"
+        [attr.aria-busy]="isLoadingBorders()"
+      >
+        <option value="">
+          {{ isLoadingBorders() ? 'Cargando fronteras...' : '-- Seleccione la frontera --' }}
+        </option>
         @for (border of bordersByCountry(); track border.cca3) {
 
           <option [value]="border.cca3">
