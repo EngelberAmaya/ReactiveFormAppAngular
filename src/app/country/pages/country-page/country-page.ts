@@ -2,8 +2,8 @@ import { Component, effect, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { JsonPipe } from '@angular/common';
 import { CountryService } from '../../services/country-service';
-import { Country } from '../../interfaces/country-interface';
 import { catchError, filter, map, of, switchMap, tap } from 'rxjs';
+import { CountryInterface } from '../../interfaces/country-interface';
 
 @Component({
   selector: 'app-country-page',
@@ -18,8 +18,8 @@ export class CountryPage {
 
   regions = signal<string[]>(this.countryService.regions);
 
-  countriesByRegion = signal<Country[]>([]);
-  bordersByCountry = signal<Country[]>([]);
+  countriesByRegion = signal<CountryInterface[]>([]);
+  bordersByCountry = signal<CountryInterface[]>([]);
   countriesError = signal<string | null>(null);
   borderError = signal<string | null>(null);
 
@@ -53,7 +53,7 @@ export class CountryPage {
         }),
         switchMap((region) => this.countryService.getCountriesByRegion(region ?? '')),
         map((countries) =>
-          [...countries].sort((a, b) => a.name.common.localeCompare(b.name.common))
+          [...countries].sort((a, b) => a.name.localeCompare(b.name))
         ),
         catchError(() => {
           this.countriesError.set('No se pudieron cargar los paises de la region');
@@ -81,7 +81,7 @@ export class CountryPage {
           this.countryService.getCountryByCodeArray(country?.borders ?? [])
         ),
         map((countries) =>
-          [...countries].sort((a, b) => a.name.common.localeCompare(b.name.common))
+          [...countries].sort((a, b) => a.name.localeCompare(b.name))
         ),
         catchError(() => {
           this.borderError.set('No se pudieron cargar las fronteras del pais');

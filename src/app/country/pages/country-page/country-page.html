@@ -28,9 +28,9 @@
         class="form-control"
       >
         <option value="">-- Seleccione País --</option>
-        @for (country of countriesByRegion(); track country.cca3) {
-          <option [value]="country.cca3">
-            {{ country.name.common }}
+        @for (country of countriesByRegion(); track country.cca2) {
+          <option [value]="country.cca2">
+            {{ country.name }}
           </option>
         }
       </select>
@@ -54,7 +54,7 @@
         @for (border of bordersByCountry(); track border.cca3) {
 
           <option [value]="border.cca3">
-            {{ border.name.common }}
+            {{ border.name }}
           </option>
         }
       </select>
